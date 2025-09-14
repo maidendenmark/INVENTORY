@@ -1,0 +1,10 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* The rest of the CSS from the original file is no longer necessary
+   because Tailwind is now providing the same or better styling. */

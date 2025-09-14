@@ -1,0 +1,16 @@
+{
+  "projects": {},
+  "targets": {
+    "model-folio-471517-n7": {
+      "hosting": {
+        "managementor": [
+          "model-folio-471517-n7"
+        ],
+        "model-folio-471517-n7": [
+          "public"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
