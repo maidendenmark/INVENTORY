@@ -28,5 +28,4 @@ jobs:
       - name: Deploy to Firebase
         run: firebase deploy --only hosting:managementor --project model-folio-471517-n7
         env:
-          firebaseServiceAccount: '${{ secrets.FIREBASE_TOKEN }}'
-
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
