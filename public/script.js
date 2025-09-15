@@ -13,7 +13,7 @@ import { initializeApp } from "firebase/app";
 // Your web app Firebase and configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
-  authDomain: "managementor.firebaseapp.com",
+  authDomain: "model-folio-471517-n7.firebaseapp.com",
   databaseURL: "https://model-folio-471517-n7-default-rtdb.firebaseio.com",
   projectId: "model-folio-471517-n7",
   storageBucket: "model-folio-471517-n7.firebasestorage.app",
@@ -21,7 +21,7 @@ const firebaseConfig = {
   appId: "1:1027634906096:web:a8c81694692124a1ac1335"
 };
 
-// Initialize Firebase app
+// Initialize a Firebase app
 const app = initializeApp(firebaseConfig);
 
 // Global variables for Firebase services
