@@ -10,7 +10,7 @@ setLogLevel('debug');
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// Your web app Firebase configuration
+// Your web app Firebase and configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
   authDomain: "managementor.firebaseapp.com",
