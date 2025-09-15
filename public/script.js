@@ -69,7 +69,7 @@ async function initializeFirebaseServices() {
         storage = getStorage(app);
 
         await signInAnonymously(auth);
-// Listen for auth state changes
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 userId = user.uid;
