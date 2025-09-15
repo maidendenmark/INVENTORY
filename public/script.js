@@ -61,7 +61,7 @@ window.hideMessage = function() {
     messageModal.classList.add('hidden');
 }
 
-// --- Firebase Initialization Authentication ---
+// --- Firebase Initialization and Authentication ---
 async function initializeFirebaseServices() {
     try {
         auth = getAuth(app);
