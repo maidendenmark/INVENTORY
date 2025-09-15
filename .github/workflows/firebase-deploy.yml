@@ -31,5 +31,10 @@ jobs:
           credentials_json: ${{ secrets.GCLOUD_AUTH }}
 
       - name: Deploy to Firebase
-        run: firebase deploy --site managementor --project model-folio-471517-n7
-        
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          channelId: 'live'
+          projectId: model-folio-471517-n7
+          target: managementor
