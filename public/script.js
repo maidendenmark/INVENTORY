@@ -86,7 +86,7 @@ async function initializeFirebaseServices() {
     }
 }
 
-// --- Core Inventory Functions ---
+// --- Core Inventory of Functions ---
 async function fetchInventory() {
     if (!userId) {
         return;
