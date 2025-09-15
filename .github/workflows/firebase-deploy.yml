@@ -23,10 +23,8 @@ jobs:
         run: npm run build
 
       - name: Deploy to Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: w9jds/firebase-action@master
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: model-folio-471517-n7
-          channelId: live
-          
+          args: deploy --only hosting --project model-folio-471517-n7 --target managementor
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
