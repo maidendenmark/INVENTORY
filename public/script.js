@@ -21,7 +21,7 @@ const firebaseConfig = {
   appId: "1:1027634906096:web:a8c81694692124a1ac1335"
 };
 
-// Initialize Firebase Ap
+// Initialize Firebase app
 const app = initializeApp(firebaseConfig);
 
 // Global variables for Firebase services
@@ -69,7 +69,7 @@ async function initializeFirebaseServices() {
         storage = getStorage(app);
 
         await signInAnonymously(auth);
-
+// Listen for auth state changes
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 userId = user.uid;
@@ -93,7 +93,7 @@ async function fetchInventory() {
     }
 
     const productsRef = collection(db, `users/${userId}/products`);
-
+// Real-time listener for inventory changes
     onSnapshot(productsRef, (querySnapshot) => {
         allProducts = [];
         querySnapshot.forEach((doc) => {
@@ -234,11 +234,11 @@ productForm.addEventListener('submit', async (event) => {
         if (currentEditingProductId) {
             const docRef = doc(db, `users/${userId}/products`, currentEditingProductId);
             await updateDoc(docRef, productData);
-            showMessage("Product updated successfully!");
+            showMessage("Product updated!");
         } else {
             const collectionRef = collection(db, `users/${userId}/products`);
             await addDoc(collectionRef, productData);
-            showMessage("Product added successfully!");
+            showMessage("Product added!");
         }
         productForm.reset();
         cancelEditBtn.classList.add('hidden');
