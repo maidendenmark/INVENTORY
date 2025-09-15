@@ -11,8 +11,7 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ],
-    "target": "model-folio-471517-n7"
+    ]
   },
   "firestore": {
     "rules": "firestore.rules",
