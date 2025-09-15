@@ -11,7 +11,8 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ],
+  "target": "managementor"
   },
   "firestore": {
     "rules": "firestore.rules",
