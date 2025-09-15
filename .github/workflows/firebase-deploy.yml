@@ -27,4 +27,5 @@ jobs:
         with:
           args: deploy --only hosting --project model-folio-471517-n7 --target managementor
         env:
+
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
