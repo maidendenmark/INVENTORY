@@ -8,15 +8,17 @@ import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-
 // Set Firestore log level to debug for development
 setLogLevel('debug');
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
-    authDomain: "model-folio-471517-n7.firebaseapp.com",
-    databaseURL: "https://model-folio-471517-n7-default-rtdb.firebaseio.com",
-    projectId: "model-folio-471517-n7",
-    storageBucket: "model-folio-471517-n7.firebasestorage.app",
-    messagingSenderId: "1027634906096",
-    appId: "1:10276349096:web:a8c81694692124a1ac1335"
+  apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
+  authDomain: "model-folio-471517-n7.firebaseapp.com",
+  databaseURL: "https://model-folio-471517-n7-default-rtdb.firebaseio.com",
+  projectId: "model-folio-471517-n7",
+  storageBucket: "model-folio-471517-n7.firebasestorage.app",
+  messagingSenderId: "1027634906096",
+  appId: "1:1027634906096:web:a8c81694692124a1ac1335"
 };
 
 // Initialize Firebase App
