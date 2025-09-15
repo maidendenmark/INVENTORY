@@ -5,15 +5,15 @@ import { getFirestore, doc, getDoc, addDoc, updateDoc, deleteDoc, onSnapshot, co
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// Set Firestore log level to debug for development
+// Set Firestore log level debug for development
 setLogLevel('debug');
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// Your web app's Firebase configuration
+// Your web app Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
-  authDomain: "model-folio-471517-n7.firebaseapp.com",
+  authDomain: "managementor.firebaseapp.com",
   databaseURL: "https://model-folio-471517-n7-default-rtdb.firebaseio.com",
   projectId: "model-folio-471517-n7",
   storageBucket: "model-folio-471517-n7.firebasestorage.app",
