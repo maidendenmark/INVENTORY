@@ -12,7 +12,7 @@
         "destination": "/index.html"
       }
     ],
-    "target": "managementor"
+    "target": "model-folio-471517-n7"
   },
   "firestore": {
     "rules": "firestore.rules",
