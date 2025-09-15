@@ -1,5 +1,5 @@
 {
-  "hosting":
+  "hosting": [
     {
       "target": "managementor",
       "public": "public",
@@ -7,15 +7,15 @@
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
-  "target": "managementor"
-  },
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ],
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
