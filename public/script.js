@@ -1,7 +1,8 @@
+// --- Imports ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -45,7 +46,6 @@ const messageText = document.getElementById('messageText');
 const searchInput = document.getElementById('searchInput');
 
 // --- AUTHENTICATION ELEMENTS ---
-const loginButton = document.getElementById('login-button');
 const loginStatusDiv = document.getElementById('login-status');
 const inventorySection = document.getElementById('inventorySection');
 
@@ -60,44 +60,42 @@ window.hideMessage = function() {
 }
 
 // --- Firebase Initialization and Authentication ---
-async function initializeFirebaseServices() {
-    try {
-        auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+// This function sets up all the listeners and services
+function initializeFirebaseServices() {
+    auth = getAuth(app);
+    db = getFirestore(app);
+    storage = getStorage(app);
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // User is signed in
-                console.log("User signed in:", user.email);
-                userId = user.uid;
-                loginStatusDiv.innerHTML = `<span class="text-gray-600">Signed in as: ${user.displayName}</span> <button id="signOutButton" class="bg-red-500 text-white px-2 py-1 ml-2 rounded">Sign Out</button>`;
-                inventorySection.style.display = 'block';
-                fetchInventory();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in
+            console.log("User signed in:", user.email);
+            userId = user.uid;
+            
+            loginStatusDiv.innerHTML = `<span class="text-gray-600">Signed in as: ${user.displayName || user.email}</span> <button id="signOutButton" class="bg-red-500 text-white px-2 py-1 ml-2 rounded">Sign Out</button>`;
+            
+            document.getElementById('signOutButton').addEventListener('click', () => {
+                signOut(auth);
+            });
 
-                // Attach the sign-out listener here
-                document.getElementById('signOutButton').addEventListener('click', () => {
-                    signOut(auth);
-                });
-
-            } else {
-                // No user signed in. DYNAMICALLY CREATE THE BUTTON HERE.
-                console.log("No user signed in.");
-                userId = null;
-                loginStatusDiv.innerHTML = `<button id="login-button" class="bg-blue-500 text-white px-4 py-2 rounded">Sign In with Google</button>`;
-                inventorySection.style.display = 'none';
-                inventoryList.innerHTML = '<div class="text-center text-gray-500 p-4">Please sign in to view your inventory.</div>';
-                
-                // ATTACH THE LOGIN LISTENER TO THE NEWLY CREATED BUTTON HERE.
-                document.getElementById('login-button').addEventListener('click', () => {
-                    signInWithPopup(auth, provider);
-                });
-            }
-        });
-
-    } catch (error) {
-        console.error("Error initializing Firebase:", error);
-        showMessage("Failed to connect to the database. Please check the console for details.");
-    }
+            inventorySection.style.display = 'block';
+            fetchInventory();
+        } else {
+            // No user signed in
+            console.log("No user signed in.");
+            userId = null;
+            
+            loginStatusDiv.innerHTML = `<button id="login-button" class="bg-blue-500 text-white px-4 py-2 rounded">Sign In with Google</button>`;
+            
+            document.getElementById('login-button').addEventListener('click', () => {
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider);
+            });
+            
+            inventorySection.style.display = 'none';
+            inventoryList.innerHTML = '<div class="text-center text-gray-500 p-4">Please sign in to view your inventory.</div>';
+        }
+    });
 }
 
 // --- Core Inventory Functions ---
@@ -105,6 +103,8 @@ async function fetchInventory() {
     if (!userId) {
         return;
     }
+    
+    inventoryList.innerHTML = '<div class="text-center text-gray-500 p-4">Loading inventory...</div>';
 
     const productsRef = collection(db, `users/${userId}/products`);
     onSnapshot(productsRef, (querySnapshot) => {
@@ -128,17 +128,18 @@ function renderInventory(products) {
 
     products.forEach(product => {
         const productItem = document.createElement('div');
-        productItem.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'gap-4', 'md:flex-row', 'md:items-center');
+        productItem.id = `product-${product.id}`;
+        productItem.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'gap-4', 'md:flex-row', 'md:items-center', 'mb-4');
         
         const detailsHtml = `
             <div class="flex-grow">
                 <h3 class="font-bold text-lg">${product.productName}</h3>
                 <p class="text-sm text-gray-600">${product.description || ''}</p>
+                <p class="text-sm text-gray-600">Quantity: ${product.productQuantity || 0}</p>
                 <p class="text-sm text-gray-600">Size: ${product.size || 'N/A'}</p>
                 <p class="text-sm text-gray-600">Box: ${product.box || 'N/A'}</p>
                 <p class="text-sm text-gray-600">Price: $${product.price ? product.price.toFixed(2) : 'N/A'}</p>
                 <p class="text-sm text-gray-600">Location: ${product.location || 'N/A'}</p>
-                <p class="text-sm text-gray-600">Quantity: ${product.productQuantity || 0}</p>
             </div>
             ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.productName}" class="w-24 h-24 object-cover rounded-md flex-shrink-0" />` : ''}
         `;
@@ -189,6 +190,14 @@ async function editProduct(productId) {
 async function deleteProduct(productId) {
     if (confirm("Are you sure you want to delete this product?")) {
         try {
+            const product = allProducts.find(p => p.id === productId);
+            if (product.imageUrl) {
+                // Delete the image from Firebase Storage
+                const imageRef = ref(storage, `users/${userId}/products/${product.imageUrl.split('%2F').pop().split('?alt=')[0]}`);
+                await deleteObject(imageRef);
+            }
+
+            // Delete the Firestore document
             const docRef = doc(db, `users/${userId}/products`, productId);
             await deleteDoc(docRef);
             showMessage("Product deleted successfully!");
@@ -200,15 +209,20 @@ async function deleteProduct(productId) {
 }
 
 // --- Event Listeners ---
-addProductBtn.addEventListener('click', async (event) => {
+productForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const productName = productNameInput.value;
-    const description = descriptionInput.value;
-    const size = sizeInput.value;
-    const box = boxInput.value;
+    if (!userId) {
+        showMessage("Please sign in to add or edit products.");
+        return;
+    }
+
+    const productName = productNameInput.value.trim();
+    const description = descriptionInput.value.trim();
+    const size = sizeInput.value.trim();
+    const box = boxInput.value.trim();
     const price = parseFloat(priceInput.value);
-    const location = locationInput.value;
+    const location = locationInput.value.trim();
     const productQuantity = parseInt(productQuantityInput.value);
     const imageFile = imageFileInput.files[0];
 
@@ -220,7 +234,7 @@ addProductBtn.addEventListener('click', async (event) => {
     let imageUrl = '';
     if (imageFile) {
         try {
-            const imageRef = ref(storage, `${userId}/products/${imageFile.name}`);
+            const imageRef = ref(storage, `users/${userId}/products/${imageFile.name}`);
             await uploadBytes(imageRef, imageFile);
             imageUrl = await getDownloadURL(imageRef);
             console.log("Image uploaded:", imageUrl);
@@ -236,7 +250,7 @@ addProductBtn.addEventListener('click', async (event) => {
         description,
         size,
         box,
-        price,
+        price: isNaN(price) ? null : price,
         location,
         productQuantity,
         imageUrl,
@@ -254,6 +268,7 @@ addProductBtn.addEventListener('click', async (event) => {
             showMessage("Product added!");
         }
         productForm.reset();
+        fileInputText.textContent = 'or drag and drop';
         cancelEditBtn.classList.add('hidden');
         addProductBtn.textContent = 'Add Product';
         currentEditingProductId = null;
@@ -265,6 +280,7 @@ addProductBtn.addEventListener('click', async (event) => {
 
 cancelEditBtn.addEventListener('click', () => {
     productForm.reset();
+    fileInputText.textContent = 'or drag and drop';
     cancelEditBtn.classList.add('hidden');
     addProductBtn.textContent = 'Add Product';
     currentEditingProductId = null;
@@ -274,7 +290,7 @@ imageFileInput.addEventListener('change', (event) => {
     if (event.target.files.length > 0) {
         fileInputText.textContent = event.target.files[0].name;
     } else {
-        fileInputText.textContent = 'No file chosen';
+        fileInputText.textContent = 'Upload a file';
     }
 });
 
@@ -283,10 +299,11 @@ searchInput.addEventListener('input', (event) => {
     const filteredProducts = allProducts.filter(product =>
         product.productName.toLowerCase().includes(searchTerm) ||
         (product.description && product.description.toLowerCase().includes(searchTerm)) ||
+        (product.box && product.box.toLowerCase().includes(searchTerm)) ||
         (product.location && product.location.toLowerCase().includes(searchTerm))
     );
     renderInventory(filteredProducts);
 });
 
-// --- Final step: Start the application ---
+// Final step: Start the application
 initializeFirebaseServices();
