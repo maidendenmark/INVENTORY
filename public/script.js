@@ -46,7 +46,7 @@ function showMessage(message) {
     }, 3000);
 }
 
-// Google Sign-in Callback
+// Google Sign-in Callback (remains the same as it's called by the GSI script)
 window.handleCredentialResponse = async (response) => {
     try {
         const id_token = response.credential;
@@ -67,11 +67,24 @@ async function initializeFirebaseServices() {
         }
         const env = await response.json();
         const firebaseConfig = env.firebaseConfig;
+        const googleClientId = env.googleClientId;
 
         const app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
         storage = getStorage(app);
+
+        // Initialize Google Sign-in with the client ID from the server
+        google.accounts.id.initialize({
+            client_id: googleClientId,
+            callback: window.handleCredentialResponse
+        });
+        
+        // Render the Google button for the initial login page
+        google.accounts.id.renderButton(
+            document.getElementById('google-button-div'),
+            { type: "standard" }
+        );
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -79,12 +92,9 @@ async function initializeFirebaseServices() {
                 userId = user.uid;
                 userDisplay.textContent = `Hello, ${user.displayName || user.email}`;
                 
-                loginOverlay.classList.add('fade-out');
-                setTimeout(() => {
-                    loginOverlay.style.display = 'none';
-                    inventorySection.classList.remove('hidden');
-                    inventorySection.classList.add('fade-in');
-                }, 500);
+                // Use the CSS 'hidden' class to trigger the fade transition
+                loginOverlay.classList.add('hidden');
+                inventorySection.classList.remove('hidden');
 
                 fetchInventory();
             } else {
@@ -92,12 +102,9 @@ async function initializeFirebaseServices() {
                 userId = null;
                 userDisplay.textContent = '';
                 
-                inventorySection.classList.add('fade-out');
-                setTimeout(() => {
-                    inventorySection.classList.add('hidden');
-                    loginOverlay.classList.remove('fade-out');
-                    loginOverlay.style.display = 'flex';
-                }, 500);
+                // Use the CSS 'hidden' class to trigger the fade transition
+                inventorySection.classList.add('hidden');
+                loginOverlay.classList.remove('hidden');
                 
                 inventoryList.innerHTML = '<div class="text-center text-gray-500 p-4">Please sign in to view your inventory.</div>';
             }
