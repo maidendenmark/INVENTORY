@@ -1,27 +1,17 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, doc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
-import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-// Set Firestore log level debug for development
-setLogLevel('debug');
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
-  authDomain: "model-folio-471517-n7.firebaseapp.com",
-  databaseURL: "https://model-folio-471517-n7-default-rtdb.firebaseio.com",
-  projectId: "model-folio-471517-n7",
-  storageBucket: "model-folio-471517-n7.firebasestorage.app",
-  messagingSenderId: "1027634906096",
-  appId: "1:1027634906096:web:a8c81694692124a1ac1335"
+    apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
+    authDomain: "model-folio-471517-n7.firebaseapp.com",
+    databaseURL: "https://model-folio-471517-n7-default-rtdb.firebaseio.com",
+    projectId: "model-folio-471517-n7",
+    storageBucket: "model-folio-471517-n7.firebasestorage.app",
+    messagingSenderId: "1027634906096",
+    appId: "1:1027634906096:web:a8c81694692124a1ac1335"
 };
 
 // Initialize a Firebase app
@@ -59,7 +49,6 @@ const loginButton = document.getElementById('login-button');
 const loginStatusDiv = document.getElementById('login-status');
 const inventorySection = document.getElementById('inventorySection');
 
-
 // --- Functions for Modal ---
 function showMessage(message) {
     messageText.textContent = message;
@@ -77,7 +66,6 @@ async function initializeFirebaseServices() {
         db = getFirestore(app);
         storage = getStorage(app);
 
-        // --- NEW: Google Auth Provider and Login/Logout Logic ---
         const provider = new GoogleAuthProvider();
 
         loginButton.addEventListener('click', () => {
@@ -90,31 +78,25 @@ async function initializeFirebaseServices() {
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // User is signed in
                 userId = user.uid;
                 console.log("User authenticated:", userId);
                 
-                // Update UI for logged-in user
                 loginStatusDiv.innerHTML = `<p class="text-white">Welcome, ${user.displayName}</p><button id="logout-button" class="bg-red-500 text-white px-4 py-2 rounded">Sign Out</button>`;
                 
                 document.getElementById('logout-button').addEventListener('click', () => {
                     signOut(auth);
                 });
                 
-                // Show the main app content
                 inventorySection.style.display = 'block';
                 
                 fetchInventory();
                 
             } else {
-                // User is signed out
                 console.log("No user signed in.");
                 userId = null;
                 
-                // Update UI for logged-out user
                 loginStatusDiv.innerHTML = `<button id="login-button" class="bg-blue-500 text-white px-4 py-2 rounded">Sign In with Google</button>`;
                 
-                // Hide the app content and show a message
                 inventorySection.style.display = 'none';
                 inventoryList.innerHTML = '<div class="text-center text-gray-500 p-4">Please sign in to view your inventory.</div>';
             }
@@ -132,7 +114,6 @@ async function fetchInventory() {
     }
 
     const productsRef = collection(db, `users/${userId}/products`);
-    // Real-time listener for inventory changes
     onSnapshot(productsRef, (querySnapshot) => {
         allProducts = [];
         querySnapshot.forEach((doc) => {
@@ -226,7 +207,7 @@ async function deleteProduct(productId) {
 }
 
 // --- Event Listeners ---
-productForm.addEventListener('submit', async (event) => {
+addProductBtn.addEventListener('click', async (event) => {
     event.preventDefault();
 
     const productName = productNameInput.value;
