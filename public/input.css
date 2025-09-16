@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+  Add your custom CSS here if needed.
+  This file will be processed by Tailwind to generate the final CSS.
+*/

@@ -2,35 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom styles for the Managementor project.
+  These will be compiled into output.css by Tailwind.
+*/
 body {
     background-color: #F8F4E1;
 }
 
-/* All text is now a consistent grey */
-.text-gray-800,
-.text-gray-700,
-.text-gray-600,
-.text-gray-500 {
-    color: #696969;
-}
-
-/* The 1950s green for the title */
-.text-1950s-green {
-    color: #A2C49C;
-}
-
-/* Custom colors based on the design palette */
-.bg-gray-100 { background-color: #F8F4E1; }
-.bg-white { background-color: #FFFFFF; }
-.bg-blue-500 { background-color: #92B5CA; }
-.hover\:bg-blue-600:hover { background-color: #7997AC; }
-.focus\:ring-blue-200:focus { --tw-ring-color: #ADD8E6; }
-.bg-green-500 { background-color: #A2C49C; }
-.hover\:bg-green-600:hover { background-color: #8CA988; }
-.bg-red-500 { background-color: #E68888; }
-.hover\:bg-red-600:hover { background-color: #C76D6D; }
-
-/* Input field styling */
+/* Custom styles for elements that Tailwind doesn't handle natively */
 input, textarea {
     border-color: #D3D3D3;
     font-size: 0.875rem;
@@ -38,32 +17,20 @@ input, textarea {
     color: #696969;
 }
 
-/* --- Animations and Transitions --- */
-
+/* Custom styles for animations and transitions */
 .shadow-2xl {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
-/* These classes are now fully responsible for showing/hiding the content */
-#inventorySection {
+#inventorySection,
+#loginOverlay,
+#messageModal {
     transition: opacity 0.5s ease-in-out;
-    opacity: 0;
-    pointer-events: none;
 }
 
-#loginOverlay {
-    transition: opacity 0.5s ease-in-out;
-    opacity: 1;
-}
-
-#loginOverlay.logged-in {
-    opacity: 0;
-    pointer-events: none;
-}
-
-#inventorySection.logged-in {
-    opacity: 1;
-    pointer-events: auto;
+.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 .login-card {
@@ -81,25 +48,6 @@ input, textarea {
     transform: rotate(0deg) scale(1);
 }
 
-/* --- New Button Styles --- */
-
-#login-button {
-    background-color: #FFFFFF;
-    color: #696969; /* Light grey writing */
-    font-weight: bold;
-    border: 2px solid #FBC5D2; /* Light pink border */
-    padding: 1rem 2rem;
-    border-radius: 9999px;
-    transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-#login-button:hover {
-    background-color: #F8F4E1;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
 @keyframes fadeInScale {
     from {
         opacity: 0;
@@ -110,8 +58,6 @@ input, textarea {
         transform: scale(1);
     }
 }
-
-/* --- Scrollbar Styles --- */
 
 ::-webkit-scrollbar {
     width: 8px;

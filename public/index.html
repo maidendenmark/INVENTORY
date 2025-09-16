@@ -7,28 +7,37 @@
     
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     
-    <link rel="stylesheet" href="./dist/output.css">
+    <link rel="stylesheet" href="./output.css">
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="bg-gray-100 font-sans min-h-screen flex items-center justify-center">
 
     <div id="appContainer" class="relative w-full min-h-screen">
         
-        <div id="loginOverlay" class="absolute inset-0 z-50 flex items-center justify-center bg-gray-100 transition-opacity duration-500 ease-in-out">
+        <div id="loginOverlay" class="absolute inset-0 z-50 flex items-center justify-center bg-gray-100">
             <div class="login-card bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full text-center relative overflow-hidden">
                 <div class="absolute inset-0 login-card-bg z-0"></div>
                 <div class="relative z-10">
                     <h1 class="text-4xl font-bold mb-4 text-1950s-green">MANAGEMENTOR</h1>
                     <div id="login-status">
+                        <div id="g_id_onload"
+                             data-client_id=""
+                             data-callback="handleCredentialResponse">
+                             <div class="g_id_signin" data-type="standard"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="inventorySection" class="relative w-full p-4 lg:p-8" style="display: none;">
+        <div id="inventorySection" class="relative w-full p-4 lg:p-8 hidden">
             
             <header class="bg-white p-4 rounded-xl shadow-md flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-1950s-green">Managementor</h1>
-                <div id="login-status-loggedin" class="text-sm">
+                <div id="login-status-loggedin" class="text-sm flex items-center space-x-2">
+                    <span id="user-display" class="text-gray-700"></span>
+                    <button id="signOutBtn" class="bg-1950s-red hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Sign Out</button>
                 </div>
             </header>
 
@@ -37,42 +46,43 @@
                 <div class="md:col-span-1 bg-white p-6 rounded-xl shadow-md h-fit sticky top-6">
                     <h2 class="text-2xl font-bold mb-4 text-gray-700">Add/Edit Product</h2>
                     <form id="productForm" class="space-y-4">
+                        <input type="hidden" id="editProductId">
                         <div class="flex flex-col">
                             <label for="productNameInput" class="text-sm font-semibold text-gray-700">Product Name</label>
-                            <input type="text" id="productNameInput" placeholder="Vintage Skirt" required class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                            <input type="text" id="productNameInput" placeholder="Vintage Skirt" required class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-1950s-blue">
                         </div>
                         <div class="flex flex-col">
                             <label for="descriptionInput" class="text-sm font-semibold text-gray-700">Description</label>
-                            <textarea id="descriptionInput" placeholder="A stunning 1950s full-circle skirt" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200"></textarea>
+                            <textarea id="descriptionInput" placeholder="A stunning 1950s full-circle skirt" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-1950s-blue"></textarea>
                         </div>
                         <div class="flex flex-col md:flex-row md:space-x-4">
                             <div class="flex flex-col w-full">
                                 <label for="sizeInput" class="text-sm font-semibold text-gray-700">Size</label>
-                                <input type="text" id="sizeInput" placeholder="S, M, L" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                                <input type="text" id="sizeInput" placeholder="S, M, L" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-1950s-blue">
                             </div>
                             <div class="flex flex-col w-full mt-4 md:mt-0">
                                 <label for="boxInput" class="text-sm font-semibold text-gray-700">Box</label>
-                                <input type="text" id="boxInput" placeholder="A-4" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                                <input type="text" id="boxInput" placeholder="A-4" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-1950s-blue">
                             </div>
                         </div>
                         <div class="flex flex-col md:flex-row md:space-x-4">
                             <div class="flex flex-col w-full">
                                 <label for="priceInput" class="text-sm font-semibold text-gray-700">Price</label>
-                                <input type="number" id="priceInput" step="0.01" placeholder="99.99" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                                <input type="number" id="priceInput" step="0.01" placeholder="99.99" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-1950s-blue">
                             </div>
                             <div class="flex flex-col w-full mt-4 md:mt-0">
                                 <label for="locationInput" class="text-sm font-semibold text-gray-700">Location</label>
-                                <input type="text" id="locationInput" placeholder="Shelf 3" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                                <input type="text" id="locationInput" placeholder="Shelf 3" class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-1950s-blue">
                             </div>
                         </div>
                         <div class="flex flex-col">
                             <label for="productQuantityInput" class="text-sm font-semibold text-gray-700">Quantity</label>
-                            <input type="number" id="productQuantityInput" placeholder="10" required class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                            <input type="number" id="productQuantityInput" placeholder="10" required class="mt-1 px-4 py-2 border rounded-lg focus:ring focus:ring-1950s-blue">
                         </div>
                         <div class="flex flex-col">
                             <label for="imageFileInput" class="text-sm font-semibold text-gray-700">Image</label>
                             <div class="flex items-center space-x-2 mt-1">
-                                <label for="imageFileInput" class="cursor-pointer bg-blue-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                <label for="imageFileInput" class="cursor-pointer bg-1950s-blue text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
                                     Browse
                                 </label>
                                 <span id="fileInputText" class="text-sm text-gray-500 truncate">No file chosen</span>
@@ -80,7 +90,7 @@
                             </div>
                         </div>
                         <div class="flex space-x-2">
-                            <button id="addProductBtn" type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg font-bold hover:bg-blue-600 transition-colors">
+                            <button id="addProductBtn" type="submit" class="w-full bg-1950s-blue text-white py-2 rounded-lg font-bold hover:bg-blue-600 transition-colors">
                                 Add Product
                             </button>
                             <button id="cancelEditBtn" type="button" class="w-full bg-gray-400 text-white py-2 rounded-lg font-bold hover:bg-gray-500 transition-colors hidden">
@@ -92,7 +102,7 @@
                 
                 <div class="md:col-span-2 space-y-4">
                     <div class="bg-white p-4 rounded-xl shadow-md">
-                        <input type="text" id="searchInput" placeholder="Search for products..." class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                        <input type="text" id="searchInput" placeholder="Search for products..." class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-1950s-blue">
                     </div>
                     <div id="inventoryList" class="space-y-4">
                     </div>
@@ -109,5 +119,21 @@
     </div>
 
     <script type="module" src="script.js"></script>
+
+    <script>
+        async function setClientId() {
+            try {
+                const response = await fetch('/env');
+                const env = await response.json();
+                const clientIdDiv = document.getElementById('g_id_onload');
+                if (clientIdDiv && env.googleClientId) {
+                    clientIdDiv.setAttribute('data-client_id', env.googleClientId);
+                }
+            } catch (error) {
+                console.error("Failed to fetch Google Client ID:", error);
+            }
+        }
+        setClientId();
+    </script>
 </body>
 </html>
