@@ -1,5 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
-    background-color: #F8F4E1; /* A light, creamy neutral base */
+    background-color: #F8F4E1;
 }
 
 /* All text is now a consistent grey */
@@ -10,7 +14,7 @@ body {
     color: #696969;
 }
 
-/* The 1950s green for the title, applied directly to a class */
+/* The 1950s green for the title */
 .text-1950s-green {
     color: #A2C49C;
 }
@@ -31,7 +35,7 @@ input, textarea {
     border-color: #D3D3D3;
     font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
-    color: #696969; /* Sets the text inside the input to grey */
+    color: #696969;
 }
 
 /* --- Animations and Transitions --- */
@@ -40,9 +44,16 @@ input, textarea {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
+/* These classes are now fully responsible for showing/hiding the content */
 #inventorySection {
     transition: opacity 0.5s ease-in-out;
     opacity: 0;
+    pointer-events: none;
+}
+
+#loginOverlay {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
 }
 
 #loginOverlay.logged-in {
@@ -52,6 +63,7 @@ input, textarea {
 
 #inventorySection.logged-in {
     opacity: 1;
+    pointer-events: auto;
 }
 
 .login-card {
@@ -72,10 +84,10 @@ input, textarea {
 /* --- New Button Styles --- */
 
 #login-button {
-    background-color: #FFFFFF; /* White inside */
-    color: #696969; /* Grey writing */
+    background-color: #FFFFFF;
+    color: #696969; /* Light grey writing */
     font-weight: bold;
-    border: 2px solid #FBC5D2; /* Light pink/coral outline */
+    border: 2px solid #FBC5D2; /* Light pink border */
     padding: 1rem 2rem;
     border-radius: 9999px;
     transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
@@ -83,7 +95,7 @@ input, textarea {
 }
 
 #login-button:hover {
-    background-color: #F8F4E1; /* Slight hover effect */
+    background-color: #F8F4E1;
     transform: translateY(-2px);
     box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }

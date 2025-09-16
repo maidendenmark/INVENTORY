@@ -54,6 +54,9 @@ const inventorySection = document.getElementById('inventorySection');
 function showMessage(message) {
     messageText.textContent = message;
     messageModal.classList.remove('hidden');
+    setTimeout(() => {
+        messageModal.classList.add('hidden');
+    }, 3000);
 }
 
 window.hideMessage = function() {
@@ -73,9 +76,9 @@ function initializeFirebaseServices() {
             userId = user.uid;
             
             // Show the main content and hide the login overlay
-            loginOverlay.classList.add('logged-in');
-            inventorySection.classList.add('logged-in');
-
+            loginOverlay.style.display = 'none';
+            inventorySection.style.display = 'block';
+            
             // The login status for the main header
             const loggedInStatusDiv = document.getElementById('login-status-loggedin');
             if (loggedInStatusDiv) {
@@ -93,10 +96,10 @@ function initializeFirebaseServices() {
             userId = null;
             
             // Show the login overlay and hide the main content
-            loginOverlay.classList.remove('logged-in');
-            inventorySection.classList.remove('logged-in');
+            loginOverlay.style.display = 'flex';
+            inventorySection.style.display = 'none';
 
-            // THIS IS THE KEY CHANGE
+            // The login button is styled correctly in your CSS
             loginStatusDiv.innerHTML = `<button id="login-button" class="bg-pink-300 text-gray-800 px-4 py-2 rounded">Sign In with Google</button>`;
             
             document.getElementById('login-button').addEventListener('click', () => {
