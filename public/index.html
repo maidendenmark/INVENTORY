@@ -1,81 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage-mentor</title>
-    <link rel="stylesheet" href="output.css">
-    <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_x-W5_gO3H_m-0_F0E4zB2uM8j2o_Q7X4Q&s">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage-mentor</title>
+    <link rel="stylesheet" href="dist/output.css">
+    <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_x-W5_gO3H_m-0_F0E4zB2uM8j2o_Q7X4Q&s">
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="font-sans">
 
-    <div id="loginOverlay" class="fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-500 bg-gray-900 bg-opacity-50">
-        <div class="login-card relative w-full max-w-sm p-8 rounded-xl shadow-2xl overflow-hidden text-center bg-gray-100">
-            <div class="login-card-bg absolute inset-0"></div>
-            <div class="relative z-10">
-                <h1 class="text-3xl font-bold mb-4 text-gray-800">Welcome</h1>
-                <p class="mb-6 text-gray-600">Sign in to manage your inventory.</p>
-                <div id="google-button-div" class="flex justify-center"></div>
-            </div>
-        </div>
-    </div>
+    <div id="loginOverlay" class="fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-500 bg-gray-900 bg-opacity-50">
+        <div class="login-card relative w-full max-w-sm p-8 rounded-xl shadow-2xl overflow-hidden text-center bg-gray-100">
+            <div class="login-card-bg absolute inset-0"></div>
+            <div class="relative z-10">
+                <h1 class="text-3xl font-bold mb-4 text-gray-800">Welcome</h1>
+                <p class="mb-6 text-gray-600">Sign in to manage your inventory.</p>
+                <div id="google-button-div" class="flex justify-center"></div>
+            </div>
+        </div>
+    </div>
 
-    <div id="inventorySection" class="p-4 md:p-8 min-h-screen hidden transition-opacity duration-500">
-        <header class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-            <div class="flex-grow">
-                <h1 class="text-4xl font-bold text-gray-800">Manage-mentor</h1>
-                <p id="user-display" class="mt-1 text-lg text-gray-600"></p>
-            </div>
-            <div class="flex items-center space-x-2 md:space-x-4">
-                <input type="text" id="searchInput" placeholder="Search products..." class="w-full md:w-fit p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
-                <button id="signOutBtn" class="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-colors flex-shrink-0">Sign Out</button>
-            </div>
-        </header>
+    <div id="inventorySection" class="p-4 md:p-8 min-h-screen hidden transition-opacity duration-500">
+        <header class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+            <div class="flex-grow">
+                <h1 class="text-4xl font-bold text-gray-800">Manage-mentor</h1>
+                <p id="user-display" class="mt-1 text-lg text-gray-600"></p>
+            </div>
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <input type="text" id="searchInput" placeholder="Search products..." class="w-full md:w-fit p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
+                <button id="signOutBtn" class="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-colors flex-shrink-0">Sign Out</button>
+            </div>
+        </header>
 
-        <main>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="md:col-span-1">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Add/Edit Product</h2>
-                    <form id="productForm" class="bg-white p-6 rounded-xl shadow-xl space-y-4">
-                        <input type="text" id="productNameInput" placeholder="Product Name" required class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
-                        <textarea id="descriptionInput" placeholder="Description" rows="3" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue"></textarea>
-                        <div class="flex space-x-2">
-                            <input type="text" id="sizeInput" placeholder="Size" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
-                            <input type="text" id="boxInput" placeholder="Box" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
-                        </div>
-                        <div class="flex space-x-2">
-                            <input type="number" id="priceInput" placeholder="Price" step="0.01" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
-                            <input type="text" id="locationInput" placeholder="Location" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
-                        </div>
-                        <input type="number" id="productQuantityInput" placeholder="Quantity" required class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
-                        <div class="flex items-center space-x-2">
-                            <label for="imageFileInput" class="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md shadow-sm transition-colors text-sm">Choose Image</label>
-                            <input type="file" id="imageFileInput" class="hidden">
-                            <span id="fileInputText" class="truncate text-gray-500 text-sm">No file chosen</span>
-                        </div>
-                        <div class="flex gap-2">
-                            <button type="submit" id="addProductBtn" class="bg-1950s-blue text-white w-full py-2 px-4 rounded-md hover:bg-blue-600 transition-colors font-semibold">Add Product</button>
-                            <button type="button" id="cancelEditBtn" class="hidden bg-gray-400 text-white w-full py-2 px-4 rounded-md hover:bg-gray-500 transition-colors font-semibold">Cancel</button>
-                        </div>
-                    </form>
-                </div>
+        <main>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="md:col-span-1">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Add/Edit Product</h2>
+                    <form id="productForm" class="bg-white p-6 rounded-xl shadow-xl space-y-4">
+                        <input type="text" id="productNameInput" placeholder="Product Name" required class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
+                        <textarea id="descriptionInput" placeholder="Description" rows="3" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue"></textarea>
+                        <div class="flex space-x-2">
+                            <input type="text" id="sizeInput" placeholder="Size" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
+                            <input type="text" id="boxInput" placeholder="Box" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="number" id="priceInput" placeholder="Price" step="0.01" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
+                            <input type="text" id="locationInput" placeholder="Location" class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
+                        </div>
+                        <input type="number" id="productQuantityInput" placeholder="Quantity" required class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-1950s-blue focus:border-1950s-blue">
+                        <div class="flex items-center space-x-2">
+                            <label for="imageFileInput" class="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md shadow-sm transition-colors text-sm">Choose Image</label>
+                            <input type="file" id="imageFileInput" class="hidden">
+                            <span id="fileInputText" class="truncate text-gray-500 text-sm">No file chosen</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" id="addProductBtn" class="bg-1950s-blue text-white w-full py-2 px-4 rounded-md hover:bg-blue-600 transition-colors font-semibold">Add Product</button>
+                            <button type="button" id="cancelEditBtn" class="hidden bg-gray-400 text-white w-full py-2 px-4 rounded-md hover:bg-gray-500 transition-colors font-semibold">Cancel</button>
+                        </div>
+                    </form>
+                </div>
 
-                <div class="md:col-span-2 mt-8 md:mt-0">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Inventory</h2>
-                    <div id="inventoryList" class="space-y-4">
-                        <p class="text-center text-gray-500">Please sign in to view your inventory.</p>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+                <div class="md:col-span-2 mt-8 md:mt-0">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Inventory</h2>
+                    <div id="inventoryList" class="space-y-4">
+                        <p class="text-center text-gray-500">Please sign in to view your inventory.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
-        <div id="messageModal" class="hidden fixed top-6 left-1/2 -translate-x-1/2 z-50 p-4 rounded-lg bg-gray-900 text-white shadow-xl">
-        <p id="messageText"></p>
-    </div>
+    <div id="messageModal" class="hidden fixed top-6 left-1/2 -translate-x-1/2 z-50 p-4 rounded-lg bg-gray-900 text-white shadow-xl">
+        <p id="messageText"></p>
+    </div>
 
-    <script src="https://accounts.google.com/gsi/client" async></script>
-    <script type="module" src="script.js"></script>
-
+    <script type="module" src="script.js"></script>
 </body>
 </html>
