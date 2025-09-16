@@ -1,10 +1,119 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 20px;
-    color: #333;
+    background-color: #F8F4E1; /* A light, creamy neutral base */
 }
 
-/* The rest of the CSS from the original file is no longer necessary
-   because Tailwind is now providing the same or better styling. */
+/* 1950s inspired color palette */
+.text-gray-800 { color: #4B4B4B; } /* Dark charcoal for headings */
+.text-gray-700 { color: #696969; } /* Medium gray for labels */
+.text-gray-600 { color: #8C8C8C; } /* Lighter gray for descriptions */
+.text-gray-500 { color: #AFAFAF; } /* Faintest gray for placeholders */
+
+.bg-gray-100 { background-color: #F8F4E1; } /* Creamy background */
+.bg-white { background-color: #FFFFFF; }
+
+/* Soft pink */
+.bg-pink-300 { background-color: #FBC5D2; } /* A new, light pink */
+.hover\:bg-pink-400:hover { background-color: #F7A8BF; }
+
+/* 1950s blues and greens */
+.bg-blue-500 { background-color: #92B5CA; } /* Soft, sky blue */
+.hover\:bg-blue-600:hover { background-color: #7997AC; }
+.focus\:ring-blue-200:focus { --tw-ring-color: #ADD8E6; } /* Light blue ring */
+
+.bg-green-500 { background-color: #A2C49C; } /* Faded mint green */
+.hover\:bg-green-600:hover { background-color: #8CA988; }
+
+.bg-red-500 { background-color: #E68888; } /* Muted red for delete */
+.hover\:bg-red-600:hover { background-color: #C76D6D; }
+
+/* Input field styling */
+input, textarea {
+    border-color: #D3D3D3; /* Light gray border */
+    font-size: 0.875rem; /* Smaller font size */
+    padding: 0.5rem 0.75rem; /* Tighter padding */
+}
+
+/* Custom shadow for a softer look */
+.shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Hidden until login transition */
+#inventorySection {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+
+#loginOverlay.logged-in {
+    opacity: 0;
+    pointer-events: none; /* Allows clicks to pass through after fade */
+}
+
+#inventorySection.logged-in {
+    opacity: 1;
+}
+
+/* Login card and button styling */
+.login-card {
+    animation: fadeInScale 0.8s ease-out forwards;
+}
+
+.login-card-bg {
+    background: linear-gradient(135deg, #FBC5D2 0%, #ADD8E6 100%);
+    opacity: 0.1;
+    transform: rotate(45deg) scale(1.5);
+    transition: transform 0.5s ease-in-out;
+}
+
+.login-card:hover .login-card-bg {
+    transform: rotate(0deg) scale(1);
+}
+
+/* Login button specific styling */
+#login-button {
+    background-color: #FBC5D2; /* Light pink background */
+    color: #4B4B4B; /* Dark text for contrast */
+    font-weight: bold;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 9999px; /* Pill shape */
+    transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+#login-button:hover {
+    background-color: #F7A8BF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Keyframes for a smooth fade-in effect on the card */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Scrollbar for better UX on lists */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #A2C49C;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #8CA988;
+}

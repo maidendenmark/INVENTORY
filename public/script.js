@@ -28,6 +28,7 @@ let allProducts = [];
 let currentEditingProductId = null;
 
 // --- DOM Elements ---
+const loginOverlay = document.getElementById('loginOverlay');
 const productForm = document.getElementById('productForm');
 const productNameInput = document.getElementById('productNameInput');
 const descriptionInput = document.getElementById('descriptionInput');
@@ -71,31 +72,41 @@ function initializeFirebaseServices() {
             console.log("User signed in:", user.email);
             userId = user.uid;
             
-            loginStatusDiv.innerHTML = `<span class="text-gray-600">Signed in as: ${user.displayName || user.email}</span> <button id="signOutButton" class="bg-red-500 text-white px-2 py-1 ml-2 rounded">Sign Out</button>`;
-            
-            document.getElementById('signOutButton').addEventListener('click', () => {
-                signOut(auth);
-            });
+            // Show the main content and hide the login overlay
+            loginOverlay.classList.add('logged-in');
+            inventorySection.classList.add('logged-in');
 
-            inventorySection.style.display = 'block';
+            // The login status for the main header
+            const loggedInStatusDiv = document.getElementById('login-status-loggedin');
+            if (loggedInStatusDiv) {
+                loggedInStatusDiv.innerHTML = `<span class="text-gray-600">Signed in as: ${user.displayName || user.email}</span> <button id="signOutButton" class="bg-red-500 text-white px-2 py-1 ml-2 rounded hover:bg-red-600 transition-colors">Sign Out</button>`;
+            
+                document.getElementById('signOutButton').addEventListener('click', () => {
+                    signOut(auth);
+                });
+            }
+            
             fetchInventory();
         } else {
             // No user signed in
             console.log("No user signed in.");
             userId = null;
             
-            loginStatusDiv.innerHTML = `<button id="login-button" class="bg-blue-500 text-white px-4 py-2 rounded">Sign In with Google</button>`;
+            // Show the login overlay and hide the main content
+            loginOverlay.classList.remove('logged-in');
+            inventorySection.classList.remove('logged-in');
+
+            // THIS IS THE KEY CHANGE
+            loginStatusDiv.innerHTML = `<button id="login-button" class="bg-pink-300 text-gray-800 px-4 py-2 rounded">Sign In with Google</button>`;
             
             document.getElementById('login-button').addEventListener('click', () => {
                 const provider = new GoogleAuthProvider();
-                // THIS IS THE KEY CHANGE
                 provider.setCustomParameters({
                     prompt: 'select_account'
                 });
                 signInWithPopup(auth, provider);
             });
             
-            inventorySection.style.display = 'none';
             inventoryList.innerHTML = '<div class="text-center text-gray-500 p-4">Please sign in to view your inventory.</div>';
         }
     });
@@ -132,19 +143,19 @@ function renderInventory(products) {
     products.forEach(product => {
         const productItem = document.createElement('div');
         productItem.id = `product-${product.id}`;
-        productItem.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'gap-4', 'md:flex-row', 'md:items-center', 'mb-4');
+        productItem.classList.add('bg-white', 'p-4', 'rounded-xl', 'shadow-md', 'flex', 'flex-col', 'gap-4', 'md:flex-row', 'md:items-center', 'mb-4');
         
         const detailsHtml = `
             <div class="flex-grow">
-                <h3 class="font-bold text-lg">${product.productName}</h3>
+                <h3 class="font-bold text-lg text-gray-800">${product.productName}</h3>
                 <p class="text-sm text-gray-600">${product.description || ''}</p>
-                <p class="text-sm text-gray-600">Quantity: ${product.productQuantity || 0}</p>
-                <p class="text-sm text-gray-600">Size: ${product.size || 'N/A'}</p>
-                <p class="text-sm text-gray-600">Box: ${product.box || 'N/A'}</p>
-                <p class="text-sm text-gray-600">Price: $${product.price ? product.price.toFixed(2) : 'N/A'}</p>
-                <p class="text-sm text-gray-600">Location: ${product.location || 'N/A'}</p>
+                <p class="text-sm text-gray-600">Quantity: <span class="text-gray-700">${product.productQuantity || 0}</span></p>
+                <p class="text-sm text-gray-600">Size: <span class="text-gray-700">${product.size || 'N/A'}</span></p>
+                <p class="text-sm text-gray-600">Box: <span class="text-gray-700">${product.box || 'N/A'}</span></p>
+                <p class="text-sm text-gray-600">Price: <span class="text-gray-700">$${product.price ? product.price.toFixed(2) : 'N/A'}</span></p>
+                <p class="text-sm text-gray-600">Location: <span class="text-gray-700">${product.location || 'N/A'}</span></p>
             </div>
-            ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.productName}" class="w-24 h-24 object-cover rounded-md flex-shrink-0" />` : ''}
+            ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.productName}" class="w-24 h-24 object-cover rounded-lg flex-shrink-0" />` : ''}
         `;
         productItem.innerHTML = detailsHtml;
 
@@ -153,12 +164,12 @@ function renderInventory(products) {
         
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
-        editButton.classList.add('bg-blue-500', 'text-white', 'px-3', 'py-1', 'rounded-md', 'hover:bg-blue-600');
+        editButton.classList.add('bg-blue-500', 'text-white', 'px-3', 'py-1', 'rounded-md', 'text-sm', 'hover:bg-blue-600', 'transition-colors');
         editButton.onclick = () => editProduct(product.id);
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('bg-red-500', 'text-white', 'px-3', 'py-1', 'rounded-md', 'hover:bg-red-600');
+        deleteButton.classList.add('bg-red-500', 'text-white', 'px-3', 'py-1', 'rounded-md', 'text-sm', 'hover:bg-red-600', 'transition-colors');
         deleteButton.onclick = () => deleteProduct(product.id);
 
         actionButtons.append(editButton, deleteButton);
@@ -269,7 +280,7 @@ productForm.addEventListener('submit', async (event) => {
             showMessage("Product added!");
         }
         productForm.reset();
-        fileInputText.textContent = 'or drag and drop';
+        fileInputText.textContent = 'No file chosen';
         cancelEditBtn.classList.add('hidden');
         addProductBtn.textContent = 'Add Product';
         currentEditingProductId = null;
@@ -281,7 +292,7 @@ productForm.addEventListener('submit', async (event) => {
 
 cancelEditBtn.addEventListener('click', () => {
     productForm.reset();
-    fileInputText.textContent = 'or drag and drop';
+    fileInputText.textContent = 'No file chosen';
     cancelEditBtn.classList.add('hidden');
     addProductBtn.textContent = 'Add Product';
     currentEditingProductId = null;
@@ -291,7 +302,7 @@ imageFileInput.addEventListener('change', (event) => {
     if (event.target.files.length > 0) {
         fileInputText.textContent = event.target.files[0].name;
     } else {
-        fileInputText.textContent = 'Upload a file';
+        fileInputText.textContent = 'No file chosen';
     }
 });
 
