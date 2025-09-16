@@ -2,43 +2,44 @@ body {
     background-color: #F8F4E1; /* A light, creamy neutral base */
 }
 
-/* 1950s inspired color palette */
-.text-gray-800 { color: #4B4B4B; } /* Dark charcoal for headings */
-.text-gray-700 { color: #696969; } /* Medium gray for labels */
-.text-gray-600 { color: #8C8C8C; } /* Lighter gray for descriptions */
-.text-gray-500 { color: #AFAFAF; } /* Faintest gray for placeholders */
+/* All text is now a consistent grey */
+.text-gray-800,
+.text-gray-700,
+.text-gray-600,
+.text-gray-500 {
+    color: #696969;
+}
 
-.bg-gray-100 { background-color: #F8F4E1; } /* Creamy background */
+/* The 1950s green for the title, applied directly to a class */
+.text-1950s-green {
+    color: #A2C49C;
+}
+
+/* Custom colors based on the design palette */
+.bg-gray-100 { background-color: #F8F4E1; }
 .bg-white { background-color: #FFFFFF; }
-
-/* Soft pink */
-.bg-pink-300 { background-color: #FBC5D2; } /* A new, light pink */
-.hover\:bg-pink-400:hover { background-color: #F7A8BF; }
-
-/* 1950s blues and greens */
-.bg-blue-500 { background-color: #92B5CA; } /* Soft, sky blue */
+.bg-blue-500 { background-color: #92B5CA; }
 .hover\:bg-blue-600:hover { background-color: #7997AC; }
-.focus\:ring-blue-200:focus { --tw-ring-color: #ADD8E6; } /* Light blue ring */
-
-.bg-green-500 { background-color: #A2C49C; } /* Faded mint green */
+.focus\:ring-blue-200:focus { --tw-ring-color: #ADD8E6; }
+.bg-green-500 { background-color: #A2C49C; }
 .hover\:bg-green-600:hover { background-color: #8CA988; }
-
-.bg-red-500 { background-color: #E68888; } /* Muted red for delete */
+.bg-red-500 { background-color: #E68888; }
 .hover\:bg-red-600:hover { background-color: #C76D6D; }
 
 /* Input field styling */
 input, textarea {
-    border-color: #D3D3D3; /* Light gray border */
-    font-size: 0.875rem; /* Smaller font size */
-    padding: 0.5rem 0.75rem; /* Tighter padding */
+    border-color: #D3D3D3;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    color: #696969; /* Sets the text inside the input to grey */
 }
 
-/* Custom shadow for a softer look */
+/* --- Animations and Transitions --- */
+
 .shadow-2xl {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Hidden until login transition */
 #inventorySection {
     transition: opacity 0.5s ease-in-out;
     opacity: 0;
@@ -46,14 +47,13 @@ input, textarea {
 
 #loginOverlay.logged-in {
     opacity: 0;
-    pointer-events: none; /* Allows clicks to pass through after fade */
+    pointer-events: none;
 }
 
 #inventorySection.logged-in {
     opacity: 1;
 }
 
-/* Login card and button styling */
 .login-card {
     animation: fadeInScale 0.8s ease-out forwards;
 }
@@ -69,25 +69,25 @@ input, textarea {
     transform: rotate(0deg) scale(1);
 }
 
-/* Login button specific styling */
+/* --- New Button Styles --- */
+
 #login-button {
-    background-color: #FBC5D2; /* Light pink background */
-    color: #4B4B4B; /* Dark text for contrast */
+    background-color: #FFFFFF; /* White inside */
+    color: #696969; /* Grey writing */
     font-weight: bold;
-    border: none;
+    border: 2px solid #FBC5D2; /* Light pink/coral outline */
     padding: 1rem 2rem;
-    border-radius: 9999px; /* Pill shape */
+    border-radius: 9999px;
     transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 #login-button:hover {
-    background-color: #F7A8BF;
+    background-color: #F8F4E1; /* Slight hover effect */
     transform: translateY(-2px);
     box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Keyframes for a smooth fade-in effect on the card */
 @keyframes fadeInScale {
     from {
         opacity: 0;
@@ -99,7 +99,8 @@ input, textarea {
     }
 }
 
-/* Scrollbar for better UX on lists */
+/* --- Scrollbar Styles --- */
+
 ::-webkit-scrollbar {
     width: 8px;
 }
