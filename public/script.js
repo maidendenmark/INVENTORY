@@ -60,7 +60,6 @@ window.hideMessage = function() {
 }
 
 // --- Firebase Initialization and Authentication ---
-// This function sets up all the listeners and services
 function initializeFirebaseServices() {
     auth = getAuth(app);
     db = getFirestore(app);
@@ -89,6 +88,10 @@ function initializeFirebaseServices() {
             
             document.getElementById('login-button').addEventListener('click', () => {
                 const provider = new GoogleAuthProvider();
+                // THIS IS THE KEY CHANGE
+                provider.setCustomParameters({
+                    prompt: 'select_account'
+                });
                 signInWithPopup(auth, provider);
             });
             
@@ -192,12 +195,10 @@ async function deleteProduct(productId) {
         try {
             const product = allProducts.find(p => p.id === productId);
             if (product.imageUrl) {
-                // Delete the image from Firebase Storage
                 const imageRef = ref(storage, `users/${userId}/products/${product.imageUrl.split('%2F').pop().split('?alt=')[0]}`);
                 await deleteObject(imageRef);
             }
 
-            // Delete the Firestore document
             const docRef = doc(db, `users/${userId}/products`, productId);
             await deleteDoc(docRef);
             showMessage("Product deleted successfully!");
