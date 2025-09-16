@@ -63,44 +63,37 @@ window.hideMessage = function() {
 async function initializeFirebaseServices() {
     try {
         auth = getAuth(app);
-        db = getFirestore(app);
-        storage = getStorage(app);
-
         const provider = new GoogleAuthProvider();
-
-        loginButton.addEventListener('click', () => {
-            if (loginButton.innerText.includes('Sign In')) {
-                signInWithPopup(auth, provider);
-            } else {
-                signOut(auth);
-            }
-        });
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                // User is signed in
+                console.log("User signed in:", user.email);
                 userId = user.uid;
-                console.log("User authenticated:", userId);
-                
-                loginStatusDiv.innerHTML = `<p class="text-white">Welcome, ${user.displayName}</p><button id="logout-button" class="bg-red-500 text-white px-4 py-2 rounded">Sign Out</button>`;
-                
-                document.getElementById('logout-button').addEventListener('click', () => {
+                loginStatusDiv.innerHTML = `<span class="text-gray-600">Signed in as: ${user.displayName}</span> <button id="signOutButton" class="bg-red-500 text-white px-2 py-1 ml-2 rounded">Sign Out</button>`;
+                inventorySection.style.display = 'block';
+                fetchInventory();
+
+                // Attach the sign-out listener here
+                document.getElementById('signOutButton').addEventListener('click', () => {
                     signOut(auth);
                 });
-                
-                inventorySection.style.display = 'block';
-                
-                fetchInventory();
-                
+
             } else {
+                // No user signed in. DYNAMICALLY CREATE THE BUTTON HERE.
                 console.log("No user signed in.");
                 userId = null;
-                
                 loginStatusDiv.innerHTML = `<button id="login-button" class="bg-blue-500 text-white px-4 py-2 rounded">Sign In with Google</button>`;
-                
                 inventorySection.style.display = 'none';
                 inventoryList.innerHTML = '<div class="text-center text-gray-500 p-4">Please sign in to view your inventory.</div>';
+                
+                // ATTACH THE LOGIN LISTENER TO THE NEWLY CREATED BUTTON HERE.
+                document.getElementById('login-button').addEventListener('click', () => {
+                    signInWithPopup(auth, provider);
+                });
             }
         });
+
     } catch (error) {
         console.error("Error initializing Firebase:", error);
         showMessage("Failed to connect to the database. Please check the console for details.");
