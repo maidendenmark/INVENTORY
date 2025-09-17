@@ -8,10 +8,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from the 'public' and 'dist' folders
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/dist', express.static(path.join(__dirname, 'dist')));
-
+// Step 1: Handle the specific '/env' API route first.
 app.get('/env', (req, res) => {
     res.json({
         firebaseConfig: {
@@ -26,7 +23,13 @@ app.get('/env', (req, res) => {
     });
 });
 
-app.get('/', (req, res) => {
+// Step 2: Then, serve all other static files from the 'public' folder.
+// This will handle requests for index.html, script.js, and everything else.
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Step 3: Add a catch-all route to serve index.html for any other requests.
+// This mirrors the behavior of Firebase Hosting rewrites.
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 

@@ -1,4 +1,5 @@
 // --- Imports ---
+// Correct Modular SDK Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithCredential } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 import { getFirestore, doc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -37,19 +38,6 @@ const searchInput = document.getElementById('searchInput');
 const userDisplay = document.getElementById('user-display');
 const signOutBtn = document.getElementById('signOutBtn');
 
-// **IMPORTANT: Replace these placeholder values with your actual Firebase configuration.**
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
-
-// **IMPORTANT: This was missing previously. Replace with your Google Client ID.**
-const googleClientId = "1027634906096-o5dtfg004mgnlep1f5ns7ii3dc1ic138.apps.googleusercontent.com";";
-
 // --- Functions for Modal ---
 function showMessage(message) {
     messageText.textContent = message;
@@ -65,10 +53,8 @@ function showMessage(message) {
 window.handleCredentialResponse = async (response) => {
     try {
         const id_token = response.credential;
-        // Create a Firebase credential from the Google ID token
         const credential = GoogleAuthProvider.credential(id_token);
 
-        // Sign in with Firebase using the credential
         await signInWithCredential(auth, credential);
     } catch (error) {
         console.error("Error with Google Sign-In:", error);
@@ -76,15 +62,21 @@ window.handleCredentialResponse = async (response) => {
     }
 };
 
-// --- Firebase Initialization and Authentication ---
-function initializeFirebaseServices() {
+// --- MODIFIED FUNCTION: Firebase Initialization and Authentication ---
+async function initializeFirebaseServices() {
     try {
+        // Fetch the configuration from your Express server
+        const response = await fetch('/env');
+        const env = await response.json();
+        const { firebaseConfig, googleClientId } = env;
+
         const app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
         storage = getStorage(app);
         
-        // Use the JavaScript initialize and render functions
+        // Use the fetched googleClientId to initialize the sign-in button
+        // This code is placed back in the initialization function
         google.accounts.id.initialize({
             client_id: googleClientId,
             callback: window.handleCredentialResponse

@@ -32,10 +32,24 @@ input, textarea {
     transition: opacity 0.5s ease-in-out;
 }
 
+/* The existing 'hidden' class is correct for opacity */
 .hidden {
     opacity: 0 !important;
     pointer-events: none !important;
 }
+
+/* --- ADD THESE CLASSES --- */
+.visible-visually {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.hidden-visually {
+    opacity: 0;
+    pointer-events: none;
+}
+/* ----------------------- */
+
 
 .login-card {
     animation: fadeInScale 0.8s ease-out forwards;
