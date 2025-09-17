@@ -1,6 +1,6 @@
 // --- Imports ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithCredential } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 import { getFirestore, doc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
 
@@ -39,12 +39,12 @@ const signOutBtn = document.getElementById('signOutBtn');
 
 // Place your Firebase configuration and Google Client ID here
 const firebaseConfig = {
-  apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
-  authDomain: "model-folio-471517-n7.firebaseapp.com",
-  projectId: "model-folio-471517-n7",
-  storageBucket: "model-folio-471517-n7.firebasestorage.app",
-  messagingSenderId: "1027634906096",
-  appId: "1:1027634906096:web:a8c81694692124a1ac1335"
+    apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
+    authDomain: "model-folio-471517-n7.firebaseapp.com",
+    projectId: "model-folio-471517-n7",
+    storageBucket: "model-folio-471517-n7.firebasestorage.app",
+    messagingSenderId: "1027634906096",
+    appId: "1:1027634906096:web:a8c81694692124a1ac1335"
 };
 
 const googleClientId = "1027634906096-o5dtfg004mgnlep1f5ns7ii3dc1ic138.apps.googleusercontent.com";
@@ -60,12 +60,15 @@ function showMessage(message) {
     }, 3000);
 }
 
-// Google Sign-in Callback (remains the same as it's called by the GSI script)
+// Corrected Google Sign-in Callback
 window.handleCredentialResponse = async (response) => {
     try {
         const id_token = response.credential;
+        // Create a Firebase credential from the Google ID token
         const credential = GoogleAuthProvider.credential(id_token);
-        await auth.signInWithCredential(credential);
+
+        // Sign in with Firebase using the credential
+        await signInWithCredential(auth, credential);
     } catch (error) {
         console.error("Error with Google Sign-In:", error);
         showMessage("Failed to sign in. Please try again.");
@@ -96,7 +99,6 @@ function initializeFirebaseServices() {
                 userId = user.uid;
                 userDisplay.textContent = `Hello, ${user.displayName || user.email}`;
                 
-                // Hide the login overlay and show the main app container
                 loginOverlay.classList.remove('visible-visually');
                 loginOverlay.classList.add('hidden-visually');
                 appContainer.classList.add('visible-visually');
@@ -108,7 +110,6 @@ function initializeFirebaseServices() {
                 userId = null;
                 userDisplay.textContent = '';
                 
-                // Show the login overlay and hide the main app container
                 appContainer.classList.add('hidden-visually');
                 appContainer.classList.remove('visible-visually');
                 loginOverlay.classList.add('visible-visually');
