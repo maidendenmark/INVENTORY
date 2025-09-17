@@ -48,7 +48,7 @@ const firebaseConfig = {
 };
 
 // **IMPORTANT: This was missing previously. Replace with your Google Client ID.**
-const googleClientId = "YOUR_GOOGLE_CLIENT_ID";
+const googleClientId = "1027634906096-o5dtfg004mgnlep1f5ns7ii3dc1ic138.apps.googleusercontent.com";";
 
 // --- Functions for Modal ---
 function showMessage(message) {
