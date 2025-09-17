@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Custom styles for the Managementor project.
-  These will be compiled into output.css by Tailwind.
+   These will be compiled into dist/output.css by Tailwind.
 */
 body {
     background-color: #F8F4E1;
@@ -15,6 +15,10 @@ input, textarea {
     font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
     color: #696969;
+    /* This removes the default browser styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;    
 }
 
 /* Custom styles for animations and transitions */

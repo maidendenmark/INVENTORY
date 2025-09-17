@@ -14,6 +14,15 @@
           "destination": "/index.html"
         }
       ]
+    },
+    {
+      "target": "managementor-dist",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
     }
   ],
   "firestore": {
