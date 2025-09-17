@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "node server.js",
-    "build": "npx tailwindcss -i ./public/style.css -o ./dist/output.css --minify",
-    "watch": "npx tailwindcss -i ./public/style.css -o ./dist/output.css --watch"
+    "build": "npx tailwindcss -i ./public/style.css -o ./public/dist/output.css --minify",
+    "watch": "npx tailwindcss -i ./public/style.css -o ./public/dist/output.css --watch"
   },
   "keywords": [],
   "author": "",

@@ -37,6 +37,18 @@ const searchInput = document.getElementById('searchInput');
 const userDisplay = document.getElementById('user-display');
 const signOutBtn = document.getElementById('signOutBtn');
 
+// Place your Firebase configuration and Google Client ID here
+const firebaseConfig = {
+  apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
+  authDomain: "model-folio-471517-n7.firebaseapp.com",
+  projectId: "model-folio-471517-n7",
+  storageBucket: "model-folio-471517-n7.firebasestorage.app",
+  messagingSenderId: "1027634906096",
+  appId: "1:1027634906096:web:a8c81694692124a1ac1335"
+};
+
+const googleClientId = "1027634906096-o5dtfg004mgnlep1f5ns7ii3dc1ic138.apps.googleusercontent.com";
+
 // --- Functions for Modal ---
 function showMessage(message) {
     messageText.textContent = message;
@@ -61,16 +73,8 @@ window.handleCredentialResponse = async (response) => {
 };
 
 // --- Firebase Initialization and Authentication ---
-async function initializeFirebaseServices() {
+function initializeFirebaseServices() {
     try {
-        const response = await fetch('/env');
-        if (!response.ok) {
-            throw new Error('Failed to fetch environment variables');
-        }
-        const env = await response.json();
-        const firebaseConfig = env.firebaseConfig;
-        const googleClientId = env.googleClientId;
-
         const app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
