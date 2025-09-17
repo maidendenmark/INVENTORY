@@ -47,6 +47,7 @@ const firebaseConfig = {
     appId: "YOUR_APP_ID"
 };
 
+// **IMPORTANT: This was missing previously. Replace with your Google Client ID.**
 const googleClientId = "YOUR_GOOGLE_CLIENT_ID";
 
 // --- Functions for Modal ---
