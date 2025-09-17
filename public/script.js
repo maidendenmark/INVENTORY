@@ -325,5 +325,5 @@ searchInput.addEventListener('input', (event) => {
     renderInventory(filteredProducts);
 });
 
-// Final step: Start the application
+// Final step: Start the applicatio
 window.onload = initializeFirebaseServices;
