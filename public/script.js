@@ -37,17 +37,17 @@ const searchInput = document.getElementById('searchInput');
 const userDisplay = document.getElementById('user-display');
 const signOutBtn = document.getElementById('signOutBtn');
 
-// Place your Firebase configuration and Google Client ID here
+// **IMPORTANT: Replace these placeholder values with your actual Firebase configuration.**
 const firebaseConfig = {
-    apiKey: "AIzaSyDo5dbZRR-C5ujtIzJTXGy0IbrAib03Kj8",
-    authDomain: "model-folio-471517-n7.firebaseapp.com",
-    projectId: "model-folio-471517-n7",
-    storageBucket: "model-folio-471517-n7.firebasestorage.app",
-    messagingSenderId: "1027634906096",
-    appId: "1:1027634906096:web:a8c81694692124a1ac1335"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
-const googleClientId = "1027634906096-o5dtfg004mgnlep1f5ns7ii3dc1ic138.apps.googleusercontent.com";
+const googleClientId = "YOUR_GOOGLE_CLIENT_ID";
 
 // --- Functions for Modal ---
 function showMessage(message) {
